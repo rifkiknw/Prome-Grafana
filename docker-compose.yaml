@@ -1,0 +1,72 @@
+version: '3'
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
+services:
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    command:
+    - '--path.procfs=/host/proc'
+    - '--path.rootfs=/rootfs'
+    - '--path.sysfs=/host/sys'
+    - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+    - 9100:9100
+    networks:
+    - monitoring
+
+  alertmanager:
+    container_name: alertmanager
+    hostname: alertmanager
+    image: prom/alertmanager
+    volumes:
+    - ./alertmanager.conf:/etc/alertmanager/alertmanager.conf
+    command:
+    - '--config.file=/etc/alertmanager/alertmanager.conf'
+    ports:
+    - 9093:9093
+    networks:
+    - monitoring
+
+  prometheus:
+    container_name: prometheus
+    hostname: prometheus
+    image: prom/prometheus
+    volumes:
+    - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+    - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+    - prometheus_data:/prometheus
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yaml'
+    links:
+    - alertmanager:alertmanager
+    ports:
+    - 9090:9090
+    networks:
+    - monitoring
+
+  grafana:
+    container_name: grafana
+    hostname: grafana
+    image: grafana/grafana
+    volumes:
+    - ./grafana_datasources.yaml:/etc/grafana/provisioning/datasources/all.yaml
+    - ./grafana_config.ini:/etc/grafana/config.ini
+    - grafana_data:/var/lib/grafana
+    ports:
+    - 3000:3000
+    networks:
+    - monitoring
