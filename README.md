@@ -190,5 +190,13 @@ We can access prometheus with http://ip-server:9090 and graphana with http://ip-
 To login grafana we can enter the user and password "admin"
 
 
+### Or you can use this repository to install prometheus and grafana instantly
+
+Execute the command: 
+```
+git clone https://github.com/rifkiknw/Prome-Grafana
+cd Prome-Grafana
+docker compose up -d
+```
 
 ### Source code from Grafana Labs, Prometheus, Medium, DEV Community, dzlab.github.io
