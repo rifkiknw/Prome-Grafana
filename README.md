@@ -37,7 +37,7 @@ SELINUX=disabled
 
 
 ## Installing Docker, and Docker Compose
-Saya biasa menggunakan script ini yang didapat dari docker.com and other recommendation
+I usually use this script obtained from docker.com and other recommendations
 ```
 sudo yum check-update
 curl -fsSL https://get.docker.com/ | sh
