@@ -121,7 +121,7 @@ services:
     image: prom/prometheus
     volumes:
     - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-    - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+#    - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
     - prometheus_data:/prometheus
     command:
     - '--config.file=/etc/prometheus/prometheus.yaml'
@@ -137,8 +137,8 @@ services:
     hostname: grafana
     image: grafana/grafana
     volumes:
-    - ./grafana_datasources.yaml:/etc/grafana/provisioning/datasources/all.yaml
-    - ./grafana_config.ini:/etc/grafana/config.ini
+#    - ./grafana_datasources.yaml:/etc/grafana/provisioning/datasources/all.yaml
+#    - ./grafana_config.ini:/etc/grafana/config.ini
     - grafana_data:/var/lib/grafana
     ports:
     - 3000:3000
