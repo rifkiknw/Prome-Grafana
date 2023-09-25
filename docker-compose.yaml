@@ -51,8 +51,8 @@ services:
     - prometheus_data:/prometheus
     command:
     - '--config.file=/etc/prometheus/prometheus.yaml'
-    links:
-    - alertmanager:alertmanager
+#    links:
+#    - alertmanager:alertmanager
     ports:
     - 9090:9090
     networks:
